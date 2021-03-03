@@ -1,0 +1,25 @@
+#BlueJ class context
+comment0.target=Lion
+comment0.text=\n\ Write\ a\ description\ of\ class\ Lion\ here.\n\n\ @author\ (your\ name)\n\ @version\ (a\ version\ number\ or\ a\ date)\n
+comment1.params=randomAge\ field\ location
+comment1.target=Lion(boolean,\ Field,\ Location)
+comment1.text=\n\ Constructor\ for\ objects\ of\ class\ Lion\n
+comment2.params=newLions
+comment2.target=void\ act(java.util.List)
+comment3.params=
+comment3.target=Location\ findFood()
+comment3.text=\n\ Look\ for\ Possums\ adjacent\ to\ the\ current\ location.\n\ Only\ the\ first\ live\ Possum\ is\ eaten.\n\ @return\ Where\ food\ was\ found,\ or\ null\ if\ it\ wasn't.\n
+comment4.params=newLions
+comment4.target=void\ giveBirth(java.util.List)
+comment4.text=\n\ Check\ whether\ or\ not\ this\ fox\ is\ to\ give\ birth\ at\ this\ step.\n\ New\ births\ will\ be\ made\ into\ free\ adjacent\ locations.\n\ @param\ newFoxes\ A\ list\ to\ return\ newly\ born\ foxes.\n
+comment5.params=
+comment5.target=boolean\ findSuitableMate()
+comment6.params=
+comment6.target=int\ breedingAge()
+comment7.params=
+comment7.target=double\ breedingProbablilty()
+comment8.params=
+comment8.target=int\ maxLitterSize()
+comment9.params=
+comment9.target=int\ maxAge()
+numComments=10
