@@ -22,6 +22,8 @@ public abstract class Species
     private Random rand;
     private boolean isMale;
     private boolean suitable;
+    private int age;
+    private static final double SICK_PROBABILITY = 0.2;
     /**
      * Create a new animal at location in field.
      * ;
@@ -37,8 +39,9 @@ public abstract class Species
         weather  = new Weather();
         weather.setWeather();
         rand = new Random();
-        isSick = rand.nextBoolean();
+        setSick();
         isMale = rand.nextBoolean();
+        age = 0;
     }
     
     /**
@@ -112,6 +115,17 @@ public abstract class Species
         return weather.getWeather();
     }
             
+    protected void setSick()
+    {
+        if(rand.nextDouble() <= SICK_PROBABILITY) {
+            isSick = true;
+        }
+        else {
+            isSick = false;
+        }
+        
+    }
+    
     protected boolean isSick()
     {
         return isSick;
@@ -127,23 +141,98 @@ public abstract class Species
        }
     }
     
-    private boolean findSuitableMate()
+    /*protected boolean findSuitableMate()
     {        
         Field field = getField();
         List<Location> adjacent = field.adjacentLocations(getLocation());
-        Iterator<Location> it = adjacent.iterator();
+        Iterator<Location> it = adjacent.iterator();        
         while(it.hasNext()) {
             Location where = it.next();
             Object species = field.getObjectAt(where);
-            
-            if(s) {
-               Possum sexPossum = (Possum) species;
-               if(sexPossum.isAlive() && !sexPossum.getGender().equals(getGender()))  { 
-                    //System.out.println("We're fucking possums");
-                    suitable = true;                    
-                }
+            //Species sexSpecies; //= new Species(field, where);
+            if(species.getClass().equals(this.getClass())) {
+               //Possum sexPossum = (Possum) species;
+               if(this.isAlive() && !this.getGender().equals(getGender())){ 
+                   System.out.println("We're fucking ");
+                   suitable = true;                    
+               }
             }            
         }
         return suitable;
-    }        
+    }*/       
+    
+    abstract protected int breedingAge();    
+    
+    abstract protected double breedingProbablilty();
+    
+    abstract protected int maxLitterSize();
+    
+    abstract protected int maxAge();    
+    
+    protected void setAge(int initialAge) 
+    {
+        age = initialAge;
+    }
+    
+    protected int getAge() {
+        return age;
+    }
+    
+    protected void incrementAge() 
+    {
+        age++;
+        if(age > maxAge()) {
+            setDead();
+            //System.out.println("zebra old age");
+        }
+    }
+    
+    protected boolean canBreed()
+    {
+       return age >= breedingAge();
+    }
+    
+    protected void setFoodLevel(double initialLevel) 
+    {
+        foodLevel = initialLevel;
+    }
+    
+    protected double getFoodLevel() 
+    {
+        return foodLevel;
+    }
+    
+    /**
+     * Generate a number representing the number of births,
+     * if it can breed.
+     * @return The number of births (may be zero).
+     */
+    protected int breed()
+    {
+        int births = 0;
+        if(canBreed() && rand.nextDouble() <= breedingProbablilty() ) {
+            births = rand.nextInt(maxLitterSize()) + 1;
+        }
+        return births;
+    }    
+    
+    protected void incrementHunger()
+    {
+        foodLevel--;
+        if(foodLevel <= 0) {
+            setDead();
+        }
+    }
+    
+    protected void sickEffect() {
+        if(isSick()) {
+            //System.out.println("animal is sick");
+            setFoodLevel(getFoodLevel()/2);            
+        }        
+    }
+    
+    protected void getSick(boolean sick)
+    {
+        isSick = true;
+    }
 }

@@ -46,13 +46,14 @@ public class Wolf extends Species
     public Wolf(boolean randomAge, Field field, Location location)
     {
         super(field, location);
+        setAge(0);
         if(randomAge) {
-            age = rand.nextInt(MAX_AGE);
-            foodLevel = rand.nextInt(POSSUM_FOOD_VALUE);
+            setAge(rand.nextInt(MAX_AGE));
+            setFoodLevel(rand.nextInt(POSSUM_FOOD_VALUE));
         }
         else {
             age = 0;
-            foodLevel = POSSUM_FOOD_VALUE;
+            setFoodLevel(POSSUM_FOOD_VALUE);
         }
         
     }
@@ -68,17 +69,23 @@ public class Wolf extends Species
     {
         incrementAge();
         incrementHunger();
-        
+        sickEffect();
         if(isAlive()) {
             Location newLocation = getLocation();
-             if(getWeather().equals("Hot")&& isNight()) {                       
+            //if(getWeather().equals("Raining") &&!isNight()) {                       
               // Move towards a source of food if found.
               newLocation = findFood();
-            }
-            giveBirth(newWolves);   
+              
+            //}
+            
+            if( findSuitableMate()) {
+               giveBirth(newWolves);
+            }            
+             
             if(newLocation == null) { 
                 // No food found - try to move to a free location.
                 newLocation = getField().freeAdjacentLocation(getLocation());
+                
             }
             // See if it was possible to move.
             if(newLocation != null) {
@@ -91,28 +98,18 @@ public class Wolf extends Species
         }
     }
 
-    /**
-     * Increase the age. This could result in the fox's death.
-     */
-    private void incrementAge()
-    {
-        age++;
-        if(age > MAX_AGE) {
-            setDead();
-            //System.out.println("old wolves");
-        }
-    }
+    
     
     /**
      * Make this fox more hungry. This could result in the fox's death.
      */
-    private  void incrementHunger()
+    /*private  void incrementHunger()
     {
         foodLevel--;
         if(foodLevel <= 0) {
             setDead();
         }
-    }
+    }*/
     
     
     /**
@@ -132,8 +129,9 @@ public class Wolf extends Species
                 Zebra zebra = (Zebra) species;                
                 if(zebra.isAlive()) { 
                     zebra.setDead();                    
-                    foodLevel = foodLevel+ZEBRA_FOOD_VALUE;
+                    setFoodLevel(getFoodLevel()+ZEBRA_FOOD_VALUE);
                     //System.out.println("Wolves eat");
+                    
                     return where;
                 }
             }
@@ -141,8 +139,9 @@ public class Wolf extends Species
                 Possum possum = (Possum) species;
                 if(possum.isAlive()) {
                     possum.setDead();                    
-                    foodLevel = foodLevel+POSSUM_FOOD_VALUE;
-                    //System.out.println("wolves eat");
+                    setFoodLevel(getFoodLevel()+POSSUM_FOOD_VALUE);
+                    
+                   // System.out.println("wolves eat");
                     return where;
                 }
             }
@@ -175,7 +174,7 @@ public class Wolf extends Species
      * if it can breed.
      * @return The number of births (may be zero).
      */
-    private int breed()
+    /*private int breed()
     {
         int births = 0;
         if(findSuitableMate() && canBreed() && rand.nextDouble() <= BREEDING_PROBABILITY) {
@@ -183,15 +182,8 @@ public class Wolf extends Species
              births = rand.nextInt(MAX_LITTER_SIZE) + 1;
         }
         return births;
-    }
+    }*/
 
-    /**
-     * A fox can breed if it has reached the breeding age.
-     */
-    private boolean canBreed()
-    {
-        return age >= BREEDING_AGE;
-    }
     
     private boolean findSuitableMate()
     {
@@ -206,6 +198,9 @@ public class Wolf extends Species
                Wolf sexWolf = (Wolf) species;
                if(sexWolf.isAlive() && !sexWolf.getGender().equals(getGender()))  { 
                    //System.out.println("We're fucking wolves");
+                   if(sexWolf.isSick()){
+                        getSick(true);
+                    }
                    suitable = true;                                       
                 }                                     
            }
@@ -213,5 +208,23 @@ public class Wolf extends Species
         return suitable;
     }
     
+    public int breedingAge()
+    {
+        return BREEDING_AGE;
+    }
     
+    public double breedingProbablilty()
+    {
+        return BREEDING_PROBABILITY;
+    }
+    
+    public int maxLitterSize()
+    {
+        return MAX_LITTER_SIZE;
+    }
+    
+    public int maxAge()
+    {
+        return MAX_AGE;
+    }
 }

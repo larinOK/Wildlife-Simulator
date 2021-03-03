@@ -25,7 +25,7 @@ public class Grass extends Species
     // Individual characteristics (instance fields).
     
     // The Grass's age.
-    private int age;
+    //private int age;
     
     /**
      * Constructor for objects of class Grass
@@ -35,7 +35,7 @@ public class Grass extends Species
         // initialise instance variables
         super(field, location);
         if(randomAge) {
-           age = rand.nextInt(MAX_AGE); 
+           setAge(rand.nextInt(MAX_AGE)); 
         }
     } 
 
@@ -47,7 +47,7 @@ public class Grass extends Species
     public void act(List<Species> newGrass)
     {
         incrementAge();
-        //timeEffect();
+        sickEffect();
         if(isAlive()) {
             //if(!getWeather().equals("Hot")&& !isNight()) {
                giveBirth(newGrass); 
@@ -55,7 +55,14 @@ public class Grass extends Species
             //System.out.println("grass babies");
             // Try to move into a free location.
             /*Location newLocation = getField().freeAdjacentLocation(getLocation());
-            if(newLocation != null) {
+            Field field = getField();
+            List<Location> adjacent = field.adjacentLocations(getLocation());
+            Iterator<Location> it = adjacent.iterator();
+            while(it.hasNext()) {
+            Location where = it.next();
+            Object species = field.getObjectAt(where);
+             * 
+             * if(newLocation != null) {
                 setLocation(newLocation);
             }
             else {
@@ -85,33 +92,32 @@ public class Grass extends Species
      * if it can breed.
      * @return The number of births (may be zero).
      */
-    private int breed()
+    /*private int breed()
     {
         int births = 0;
         if(canBreed() && rand.nextDouble() <= BREEDING_PROBABILITY) {
             births = rand.nextInt(MAX_LITTER_SIZE) + 1;
         }
         return births;
+    }*/
+        
+    public int breedingAge()
+    {
+        return BREEDING_AGE;
     }
     
-    /**
-     * A rabbit can breed if it has reached the breeding age.
-     * @return true if the rabbit can breed, false otherwise.
-     */
-    private boolean canBreed()
+    public double breedingProbablilty()
     {
-        return age >= BREEDING_AGE;
+        return BREEDING_PROBABILITY;
     }
     
-    /**
-     * Increase the age.
-     * This could result in the rabbit's death.
-     */
-    private void incrementAge()
+    public int maxLitterSize()
     {
-        age++;
-        if(age > MAX_AGE) {
-            setDead();
-        }
+        return MAX_LITTER_SIZE;
+    }
+    
+    public int maxAge()
+    {
+        return MAX_AGE;
     }
 }

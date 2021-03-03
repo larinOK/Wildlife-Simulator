@@ -39,12 +39,12 @@ public class Clock
     
     public void increaseTime()
     {
-        time = time + 1.0;
+        time = time + 0.25;
     }
         
     public String status()
     {
-        if(getTime()>=19 || getTime()<=4 ) {
+        if(getTime()>=18 || getTime()<=3 ) {
             return "Night";
         }
         else {

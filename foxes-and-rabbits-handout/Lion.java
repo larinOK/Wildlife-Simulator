@@ -39,14 +39,13 @@ public class Lion extends Species
     {
         super(field, location);
         if(randomAge) {
-            age = rand.nextInt(MAX_AGE);
-            foodLevel = rand.nextInt(POSSUM_FOOD_VALUE);
+            setAge(rand.nextInt(MAX_AGE));
+            setFoodLevel(rand.nextInt(POSSUM_FOOD_VALUE));
         }
         else {
-            age = 0;
-            foodLevel = ZEBRA_FOOD_VALUE;
-        }
-        
+            setAge(0);
+            setFoodLevel(ZEBRA_FOOD_VALUE);
+        }       
     }
 
     public void act(List<Species> newLions)
@@ -56,16 +55,19 @@ public class Lion extends Species
         sickEffect();
         if(isAlive()) {
             Location newLocation = getLocation();
-            if(getWeather().equals("Hot") && isNight()) {
-               
-               newLocation = findFood();
-            }  
-            giveBirth(newLions);
+            //if(getWeather().equals("Hot") && isNight()) {           
+               newLocation = findFood();                
+            //}  
+            
+            if(findSuitableMate()) {
+               giveBirth(newLions);
+            }
             // Move towards a source of food if found.
             
             if(newLocation == null) { 
                 // No food found - try to move to a free location.
                 newLocation = getField().freeAdjacentLocation(getLocation());
+                
             }
             // See if it was possible to move.
             if(newLocation != null) {
@@ -78,24 +80,14 @@ public class Lion extends Species
         }
     }
         
-    /**
-     * Increase the age. This could result in the fox's death.
-     */
-    private void incrementAge()
-    {
-        age++;
-        if(age > MAX_AGE) {
-            setDead();
-        }
-    }
     
-    private  void incrementHunger()
+    /*private  void incrementHunger()
     {
         foodLevel--;
         if(foodLevel <= 0) {
             setDead();
         }
-    }
+    }*/
     
     /**
      * Look for Possums adjacent to the current location.
@@ -114,7 +106,8 @@ public class Lion extends Species
                 Possum possum = (Possum) species;                
                 if(possum.isAlive()) { 
                     possum.setDead();                    
-                    foodLevel = foodLevel+POSSUM_FOOD_VALUE;
+                    setFoodLevel(getFoodLevel()+POSSUM_FOOD_VALUE);
+                    
                     //System.out.println("lion eat");
                     return where;
                 }
@@ -123,7 +116,8 @@ public class Lion extends Species
                 Zebra zebra = (Zebra) species;
                 if(zebra.isAlive()) {
                     zebra.setDead();                    
-                    foodLevel = foodLevel+ZEBRA_FOOD_VALUE;
+                    setFoodLevel(getFoodLevel()+ZEBRA_FOOD_VALUE);
+                    
                     //System.out.println("lions eat");
                     return where;
                 }
@@ -157,7 +151,7 @@ public class Lion extends Species
      * if it can breed.
      * @return The number of births (may be zero).
      */
-    private int breed()
+    /*private int breed()
     {
         int births = 0;
         if(findSuitableMate() && canBreed() && rand.nextDouble() <= BREEDING_PROBABILITY) {
@@ -165,15 +159,7 @@ public class Lion extends Species
              births = rand.nextInt(MAX_LITTER_SIZE) + 1;
         }
         return births;
-    }
-
-    /**
-     * A fox can breed if it has reached the breeding age.
-     */
-    private boolean canBreed()
-    {
-        return age >= BREEDING_AGE;
-    }
+    }*/
     
     private boolean findSuitableMate()
     {
@@ -188,21 +174,42 @@ public class Lion extends Species
                Lion sexLion = (Lion) species;
                if(!isSick()&&sexLion.isAlive() && !sexLion.getGender().equals(getGender()))  { 
                    //System.out.println("We're fucking lions");
+                   if(sexLion.isSick()){
+                        getSick(true);
+                    }
                    suitable = true;                                       
                 }                                     
            }
         }
         return suitable;
-    } 
+    }
     
-    private double sickEffect() {
+    /*private void sickEffect() {
         if(isSick()) {
             System.out.println("lion is sick");
-            return foodLevel = foodLevel/2;
+            setFoodLevel(getFoodLevel()/2);
         }
-        else {
-            return foodLevel;
-        }
+        
+    }*/
+    
+     public int breedingAge()
+    {
+        return BREEDING_AGE;
     }
-}
+    
+    public double breedingProbablilty()
+    {
+        return BREEDING_PROBABILITY;
+    }
+    
+    public int maxLitterSize()
+    {
+        return MAX_LITTER_SIZE;
+    }
+    
+    public int maxAge()
+    {
+        return MAX_AGE;
+    }
+ }
 

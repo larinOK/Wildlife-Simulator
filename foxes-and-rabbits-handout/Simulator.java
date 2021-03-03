@@ -93,7 +93,7 @@ public class Simulator
      */
     public void runLongSimulation()
     {
-        simulate(4000);
+        simulate(500);
     }
     
     /**
@@ -118,7 +118,6 @@ public class Simulator
     {
         step++;
         clock.increaseTime();
-        
         if(step%10==0) {
             weather.setWeather();
         }

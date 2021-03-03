@@ -4,7 +4,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
+
 /**
  * A graphical view of the simulation grid.
  * The view displays a colored rectangle for each location representing its contents.
@@ -33,7 +33,7 @@ public class GridView extends JFrame implements SimulatorView
     // A statistics object computing and storing simulation information
     private FieldStats stats;
     
-    private Scanner userStep;
+   
     
     /**
      * Create a view of the given width and height.
@@ -44,7 +44,7 @@ public class GridView extends JFrame implements SimulatorView
     {
         stats = new FieldStats();
         colors = new HashMap<>();        
-        userStep = new Scanner(System.in);
+        
         setTitle("Wildlife Simulation");
         stepLabel = new JLabel(STEP_PREFIX, JLabel.CENTER);
         population = new JLabel(POPULATION_PREFIX, JLabel.CENTER);
@@ -235,10 +235,5 @@ public class GridView extends JFrame implements SimulatorView
         }
     }
     
-    private int stepButton()
-    {
-        System.out.println("How many steps");
-        int wantedSteps = userStep.nextInt();
-        return wantedSteps;
-    }
+    
 }

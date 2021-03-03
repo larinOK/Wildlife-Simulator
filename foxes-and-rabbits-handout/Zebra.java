@@ -24,10 +24,10 @@ public class Zebra extends Species
     // Individual characteristics (instance fields).
     
     // The Possums's age.
-    private int age;
+    //private int age;
     
-    boolean suitable;
-    private int foodLevel;
+    private boolean suitable;
+    //private int foodLevel;
     
 
     /**
@@ -36,14 +36,14 @@ public class Zebra extends Species
     public Zebra(boolean randomAge, Field field, Location location)
     {
         super(field, location);
-        age = 0;
+        setAge(0);
         if(randomAge) {
-            age = rand.nextInt(MAX_AGE);
-            foodLevel = rand.nextInt(GRASS_FOOD_VALUE);
+            setAge(rand.nextInt(MAX_AGE));
+            setFoodLevel(rand.nextInt(GRASS_FOOD_VALUE));
         }
         else {
-            age = 0;
-            foodLevel = GRASS_FOOD_VALUE;                   
+            setAge(0);
+            setFoodLevel(GRASS_FOOD_VALUE);                   
         }
         
     }
@@ -57,19 +57,23 @@ public class Zebra extends Species
       {
         incrementAge();
         incrementHunger();
-        
+        sickEffect();
         if(isAlive()) {
             Location newLocation = getLocation();
-            if(getWeather().equals("Hot") && !isNight()){
-                 newLocation = findFood();
+            //if(getWeather().equals("Snowing")&& isNight()){                
+                newLocation = findFood();
+            //}
+            
+            if(findSuitableMate()) {
+              giveBirth(newZebras);
             }
-            giveBirth(newZebras); 
             // Try to move into a free location.
             //Location newLocation = getField().freeAdjacentLocation(getLocation());
             
             if(newLocation == null) { 
                 // No food found - try to move to a free location.
                 newLocation = getField().freeAdjacentLocation(getLocation());
+                
             }
             
             if(newLocation != null) {
@@ -81,27 +85,15 @@ public class Zebra extends Species
             }
         }
     }
+        
     
-    /**
-     * Increase the age.
-     * This could result in the Zebra's death.
-     */
-     private void incrementAge()
-    {
-        age++;
-        if(age > MAX_AGE) {
-            setDead();
-            //System.out.println("zebra old age");
-        }
-    }
-    
-    private  void incrementHunger()
+    /*private  void incrementHunger()
     {
         foodLevel--;
         if(foodLevel <= 0) {
             setDead();
         }
-    }
+    }*/
     
     /**
      * Check whether or not this Zebras is to give birth at this step.
@@ -140,8 +132,9 @@ public class Zebra extends Species
                 Grass grass = (Grass) species;
                 if(grass.isAlive()) { 
                     grass.setDead();
-                    foodLevel = foodLevel+GRASS_FOOD_VALUE;
+                    setFoodLevel(getFoodLevel()+GRASS_FOOD_VALUE);
                     //System.out.println("zebras eat");
+                    
                     return where;
                 }
             }
@@ -154,23 +147,14 @@ public class Zebra extends Species
      * if it can breed.
      * @return The number of births (may be zero).
      */
-    private int breed()
+    /*private int breed()
     {
         int births = 0;
-        if(canBreed() && rand.nextDouble() <= BREEDING_PROBABILITY && findSuitableMate()) {
+        if(canBreed() && rand.nextDouble() <= BREEDING_PROBABILITY ) {
             births = rand.nextInt(MAX_LITTER_SIZE) + 1;
         }
         return births;
-    }
-
-    /**
-     * A Possums can breed if it has reached the breeding age.
-     * @return true if the Possums can breed, false otherwise.
-     */
-    private boolean canBreed()
-    {
-       return age >= BREEDING_AGE;
-    }
+    }*/    
     
     private boolean findSuitableMate()
     {        
@@ -184,6 +168,9 @@ public class Zebra extends Species
                Zebra sexZebra = (Zebra) species;
                if(sexZebra.isAlive() && !sexZebra.getGender().equals(getGender()))  { 
                     //System.out.println("We're fucking zebras");
+                    if(sexZebra.isSick()){
+                        getSick(true);
+                    }
                     suitable = true;                    
                 }
             }            
@@ -191,5 +178,23 @@ public class Zebra extends Species
         return suitable;
     }
     
+    public int breedingAge()
+    {
+        return BREEDING_AGE;
+    }
     
-}
+    public double breedingProbablilty()
+    {
+        return BREEDING_PROBABILITY;
+    }
+    
+    public int maxLitterSize()
+    {
+        return MAX_LITTER_SIZE;
+    }
+    
+    public int maxAge()
+    {
+        return MAX_AGE;
+    }
+ }

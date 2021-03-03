@@ -16,9 +16,9 @@ public class Possum extends Species
     // The age at which a Possums can start to breed.
     private static final int BREEDING_AGE = 1;
     // The age to which a Possums can live.
-    private static final int MAX_AGE = 10;
+    private static final int MAX_AGE = 7;
     // The likelihood of a Possums breeding.
-    private static final double BREEDING_PROBABILITY = 0.5;
+    private static final double BREEDING_PROBABILITY = 0.4;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 6;
     // A shared random number generator to control breeding.
@@ -43,14 +43,14 @@ public class Possum extends Species
     public Possum(boolean randomAge, Field field, Location location)
     {
         super(field, location);
-        age = 0;
+        setAge(0);
         if(randomAge) {
-            age = rand.nextInt(MAX_AGE);
-            foodLevel = rand.nextInt(GRASS_FOOD_VALUE);
+            setAge(rand.nextInt(MAX_AGE));
+            setFoodLevel(rand.nextInt(GRASS_FOOD_VALUE));
         }
         else {
-            age = 0;
-            foodLevel = GRASS_FOOD_VALUE;
+            setAge(0);
+            setFoodLevel(GRASS_FOOD_VALUE);
         }
             
         
@@ -65,14 +65,16 @@ public class Possum extends Species
       {
         incrementAge();
         incrementHunger();
-        
+        sickEffect();
         if(isAlive()) {
             Location newLocation = getLocation();
-            if(getWeather().equals("Hot")&& isNight()){
-                
+            //if(getWeather().equals("Snowing")&& isNight()){                
                 newLocation = findFood();
-            }
-            giveBirth(newPossums);
+            //}
+            
+            if(findSuitableMate()) {
+               giveBirth(newPossums);
+            } 
             // Try to move into a free location.
             //Location newLocation = getField().freeAdjacentLocation(getLocation());
             
@@ -90,28 +92,28 @@ public class Possum extends Species
                 //System.out.println("too many possum");
             }
         }
-    }
+    } 
 
     /**
      * Increase the age.
      * This could result in the Possums's death.
      */
-     private void incrementAge()
+    /*private void incrementAge()
     {
         age++;
         if(age > MAX_AGE) {
             setDead();
             //System.out.println("old possums die");
         }
-    }
+    }*/
     
-    private  void incrementHunger()
+    /*private  void incrementHunger()
     {
         foodLevel--;
         if(foodLevel <= 0) {
             setDead();
         }
-    }
+    }*/
     
     /**
      * Check whether or not this Possums is to give birth at this step.
@@ -150,8 +152,9 @@ public class Possum extends Species
                 Grass grass = (Grass) species;
                 if(grass.isAlive()) { 
                     grass.setDead();
-                    foodLevel = foodLevel+GRASS_FOOD_VALUE;
+                    setFoodLevel(getFoodLevel()+GRASS_FOOD_VALUE);
                     //System.out.println("possums are eating");
+                    
                     return where;
                 }
             }
@@ -164,23 +167,15 @@ public class Possum extends Species
      * if it can breed.
      * @return The number of births (may be zero).
      */
-    private int breed()
+    /*private int breed()
     {
         int births = 0;
         if(canBreed() && rand.nextDouble() <= BREEDING_PROBABILITY && findSuitableMate()) {
              births = rand.nextInt(MAX_LITTER_SIZE) + 1;
         }
         return births;
-    }
+    }*/
 
-    /**
-     * A Possums can breed if it has reached the breeding age.
-     * @return true if the Possums can breed, false otherwise.
-     */
-    private boolean canBreed()
-    {
-       return age >= BREEDING_AGE;
-    }
     
     private boolean findSuitableMate()
     {        
@@ -195,9 +190,32 @@ public class Possum extends Species
                if(sexPossum.isAlive() && !sexPossum.getGender().equals(getGender()))  { 
                     //System.out.println("We're fucking possums");
                     suitable = true;                    
-                }
+                    if(sexPossum.isSick()){
+                        getSick(true);
+                    }
+                }                               
             }            
         }
         return suitable;
     }        
+    
+    public int breedingAge()
+    {
+        return BREEDING_AGE;
+    }
+    
+    public double breedingProbablilty()
+    {
+        return BREEDING_PROBABILITY;
+    }
+    
+    public int maxLitterSize()
+    {
+        return MAX_LITTER_SIZE;
+    }
+    
+    public int maxAge()
+    {
+        return MAX_AGE;
+    }
 }
