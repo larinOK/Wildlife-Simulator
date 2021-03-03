@@ -1,0 +1,13 @@
+#BlueJ class context
+comment0.target=Weather
+comment0.text=\n\ Generates\ the\ weather\ for\ our\ simulation\n\n\ @author\ (Larin\ Okunoye\ &\ Mahmood\ Ndanusa)\n\ @version\ (3/3/21)\n
+comment1.params=
+comment1.target=Weather()
+comment1.text=\n\ Array\ containing\ different\ weathers\ that\ are\ available\ in\ our\ \n\ simulation.\n
+comment2.params=
+comment2.target=void\ setWeather()
+comment2.text=\n\ Selects\ the\ weather\ randomly\ from\ an\ Array\ containing\ different\ \n\ climates.\n
+comment3.params=
+comment3.target=java.lang.String\ getWeather()
+comment3.text=\n\ Gets\ the\ current\ weather\ generated\n\ @return\ gets\ weather\n
+numComments=4

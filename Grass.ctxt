@@ -1,0 +1,25 @@
+#BlueJ class context
+comment0.target=Grass
+comment0.text=\n\ Write\ a\ description\ of\ class\ Grass\ here.\n\n\ @author\ (your\ name)\n\ @version\ (a\ version\ number\ or\ a\ date)\n
+comment1.params=randomAge\ field\ location
+comment1.target=Grass(boolean,\ Field,\ Location)
+comment1.text=\n\ Constructor\ for\ objects\ of\ class\ Grass\n\ Creates\ grass.\ Grass\ may\ be\ created\ with\ age\n\ zero\ (a\ new\ plant)\ or\ with\ a\ random\ age\n\ \ \ \ \ \ \n\ @param\ randomAge\ If\ true,\ the\ Grass\ will\ have\ a\ random\ age.\n\ @param\ field\ The\ field\ currently\ occupied.\n\ @param\ location\ The\ location\ within\ the\ field.\n
+comment2.params=newGrass
+comment2.target=void\ act(java.util.List)
+comment2.text=\n\ This\ is\ what\ the\ Grass\ does\ most\ of\ the\ time\ -\ it\ is\ immobile\ \n\ Sometimes\ its\ numbers\ will\ increase\ or\ die\ of\ old\ age.\n\ @param\ newGrass\ A\ list\ to\ return\ newly\ grown\ Grass.\n
+comment3.params=newGrass
+comment3.target=void\ giveBirth(java.util.List)
+comment3.text=\n\ Check\ whether\ or\ not\ grass\ is\ able\ to\ grow\ at\ this\ step.\n\ New\ grass\ will\ be\ grown\ in\ free\ adjacent\ locations.\n\ @param\ newGrass\ A\ list\ to\ return\ newly\ grown\ Grass.\n
+comment4.params=
+comment4.target=int\ breedingAge()
+comment4.text=\n\ Gets\ the\ age\ of\ grass\n\ @return\ age\ of\ grass\n
+comment5.params=
+comment5.target=double\ breedingProbablilty()
+comment5.text=\n\ Gets\ the\ probability\ of\ grass\ being\ able\ to\ reproduce\n\ @return\ probabilty\ of\ breeding\n
+comment6.params=
+comment6.target=int\ maxLitterSize()
+comment6.text=\n\ Gets\ the\ maximum\ number\ of\ grass\ grown\n\ @return\ maximum\ number\n
+comment7.params=
+comment7.target=int\ maxAge()
+comment7.text=\n\ Gets\ the\ maximum\ age\ grass\ is\ able\ to\ live\ up\ to\n\ @return\ maximum\ age\n
+numComments=8
