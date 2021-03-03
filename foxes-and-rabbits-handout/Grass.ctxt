@@ -1,0 +1,21 @@
+#BlueJ class context
+comment0.target=Grass
+comment0.text=\n\ Write\ a\ description\ of\ class\ Grass\ here.\n\n\ @author\ (your\ name)\n\ @version\ (a\ version\ number\ or\ a\ date)\n
+comment1.params=randomAge\ field\ location
+comment1.target=Grass(boolean,\ Field,\ Location)
+comment1.text=\n\ Constructor\ for\ objects\ of\ class\ Grass\n
+comment2.params=newGrass
+comment2.target=void\ act(java.util.List)
+comment2.text=\n\ This\ is\ what\ the\ Possums\ does\ most\ of\ the\ time\ -\ it\ runs\ \n\ around.\ Sometimes\ it\ will\ breed\ or\ die\ of\ old\ age.\n\ @param\ newPossumss\ A\ list\ to\ return\ newly\ born\ Possumss.\n
+comment3.params=newGrass
+comment3.target=void\ giveBirth(java.util.List)
+comment4.params=
+comment4.target=int\ breed()
+comment4.text=\n\ Generate\ a\ number\ representing\ the\ number\ of\ births,\n\ if\ it\ can\ breed.\n\ @return\ The\ number\ of\ births\ (may\ be\ zero).\n
+comment5.params=
+comment5.target=boolean\ canBreed()
+comment5.text=\n\ A\ rabbit\ can\ breed\ if\ it\ has\ reached\ the\ breeding\ age.\n\ @return\ true\ if\ the\ rabbit\ can\ breed,\ false\ otherwise.\n
+comment6.params=
+comment6.target=void\ incrementAge()
+comment6.text=\n\ Increase\ the\ age.\n\ This\ could\ result\ in\ the\ rabbit's\ death.\n
+numComments=7
